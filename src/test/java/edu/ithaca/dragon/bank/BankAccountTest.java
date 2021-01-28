@@ -25,15 +25,37 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
         // VALID
-        assertTrue(BankAccount.isEmailValid("a@b.com"));
+        // normal cases
         assertTrue(BankAccount.isEmailValid("abc-d@mail.com"));
         assertTrue(BankAccount.isEmailValid("abc.def@mail.com"));
         assertTrue(BankAccount.isEmailValid("abc_def@mail.com"));
         assertTrue(BankAccount.isEmailValid("abc.def@mail-archive.com"));
 
+        // single char prefix -boundary case
+        assertTrue(BankAccount.isEmailValid("a@domain.com"));
+        // single char low level domain -boundary case
+        assertTrue(BankAccount.isEmailValid("prefix@b.com"));
+        // single char prefix and low level domain -boundary case
+        assertTrue(BankAccount.isEmailValid("a@b.com"));
+
+        // special char after leading char in prefix -boundary case
+        assertTrue(BankAccount.isEmailValid("p_refix@domain.com"));
+        // special char before tailing char in prefix -boundary case
+        assertTrue(BankAccount.isEmailValid("prefi.x@domain.com"));
+
+        // special char after leading char in prefix -boundary case
+        assertTrue(BankAccount.isEmailValid("prefix@d-omain.com"));
+        // special char before tailing char in prefix -boundary case
+        assertTrue(BankAccount.isEmailValid("prefix@domai-n.com"));
         
+        // 'almost' consecutive special characters in prefix -boundary case
+        assertTrue(BankAccount.isEmailValid("p_r.efix@domain.com"));
+        // 'almost' consecutive special characters in domain -boundary case
+        assertTrue(BankAccount.isEmailValid("prefix@d-o-main.com"));
+
+
         // EMPTY
-        // empty prefix  
+        // empty prefix
         assertFalse(BankAccount.isEmailValid("@domain.com"));
         assertFalse(BankAccount.isEmailValid("domain.com"));
 

@@ -40,11 +40,52 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
-        if (email.indexOf('@') == -1){
+        
+        //returns false if there is no '@' or '.'
+        if (email.indexOf('@') == -1 || email.indexOf('.') == -1){
             return false;
         }
-        else {
+
+        //returns false if there is an improper character at the end of the email address
+        else if(email.charAt(email.length()-1)== '.' || email.charAt(email.length()-1)== '@' || email.charAt(email.length()-1)== '-'){
+            return false;
+        }
+
+        //returns false if there is an improper character at the beginning of the email address
+        else if(email.charAt(0)== '@' || email.charAt(0)== '_' || email.charAt(0)== '-' || email.charAt(0)== '.'){
+            return false;
+        }
+
+        //returns false if there is an improper combination of characters
+        else if(email.contains("@.") || email.contains("..") || email.contains(".@") || email.contains("_@") || email.contains("-@") || email.contains("@-") || email.contains("-.")){
+            return false;
+        }
+
+        //returns false if the email contains improper characters
+        else if(email.indexOf('#') != -1 || email.indexOf('*') != -1 || email.indexOf('%') != -1 || email.indexOf('(') != -1 || email.indexOf(')') != -1 || email.indexOf('^') != -1){
+            return false;
+        }
+
+        //returns false if last part of domain length < 2
+        else if(email.charAt(email.length()-2) == '.'){
+            return false;
+        }
+
+        else if(email.indexOf('@') != -1){
+            int count=0;
+            for(int i=0; i<email.length(); i++){
+                if(email.charAt(i)== '@'){
+                    count++;
+                }
+            }
+            if(count>1){
+                return false;
+            }
             return true;
         }
+        else{
+            return true;
+        }
+        
     }
 }

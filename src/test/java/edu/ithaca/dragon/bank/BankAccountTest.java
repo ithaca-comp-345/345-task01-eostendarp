@@ -33,7 +33,7 @@ class BankAccountTest {
 
         
         // EMPTY
-        // empty prefix
+        // empty prefix  
         assertFalse(BankAccount.isEmailValid("@domain.com"));
         assertFalse(BankAccount.isEmailValid("domain.com"));
 
@@ -41,15 +41,15 @@ class BankAccountTest {
         assertFalse(BankAccount.isEmailValid("foo@.bar"));
         assertFalse(BankAccount.isEmailValid("prefix.do"));
 
-        // last part of domain empty
+        // last part of domain empty -boundary cases
         assertFalse(BankAccount.isEmailValid("abc@def."));
         assertFalse(BankAccount.isEmailValid("aaa@xyz"));
 
-        // entire domain empty
+        // entire domain empty -boundary cases
         assertFalse(BankAccount.isEmailValid("zoz@."));
         assertFalse(BankAccount.isEmailValid("qwerty@"));
 
-        // missing sections
+        // missing sections -boundary cases
         assertFalse( BankAccount.isEmailValid(""));
         assertFalse( BankAccount.isEmailValid("@"));
         assertFalse( BankAccount.isEmailValid("."));

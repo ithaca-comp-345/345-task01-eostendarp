@@ -32,11 +32,11 @@ public class BankAccount {
      * @throws InsufficientFundsException
      */
     public void withdraw (double amount) throws InsufficientFundsException{
-        if (amount < 0) {
+        if (amount < 0) { //Equiv Class Amount is Negative
             throw new IllegalArgumentException("amount must be non-negative");
-        } else if (amount <= balance) {
-            balance -= amount;
-        } else {
+        } else if (amount <= balance) { //Non-negative and amount <= balance; boundary case for maximum amount is balance
+            balance -= amount; //subtract amount from balance
+        } else { //non-negative and amount is higher than its max boundary case
             throw new InsufficientFundsException("Not enough money");
         }
     }

@@ -8,18 +8,84 @@ class BankAccountTest {
 
     @Test
     void getBalanceTest() {
+        // integer balance
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-
         assertEquals(200, bankAccount.getBalance());
+
+        // float balance
+        bankAccount = new BankAccount("a@b.com", 45.13);
+        assertEquals(45.13, bankAccount.getBalance());
+
+        // 0 balance -boundary case
+        bankAccount = new BankAccount("a@b.com", 0);
+        assertEquals(0, bankAccount.getBalance());
+
+        // .01 balance -boundary case
+        bankAccount = new BankAccount("a@b.com", .01);
+        assertEquals(.01, bankAccount.getBalance());
     }
 
     @Test
     void withdrawTest() throws InsufficientFundsException{
+        final double delta = .001;  // allowable difference between actual and expected values
+
+        // VALID
+        // withdraw integer
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
+        assertEquals(100, bankAccount.getBalance(), delta);
 
-        assertEquals(100, bankAccount.getBalance());
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
+        // withdraw integer leaving 0 -boundary case
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.withdraw(200);
+        assertEquals(0, bankAccount.getBalance(), delta);
+
+        // withdraw float
+        bankAccount = new BankAccount("a@b.com", 15.75);
+        bankAccount.withdraw(13);
+        assertEquals(2.75, bankAccount.getBalance(), delta);
+
+        // withdraw float leaving 0 -boundary case
+        bankAccount = new BankAccount("a@b.com", 115.42);
+        bankAccount.withdraw(115.42);
+        assertEquals(0, bankAccount.getBalance(), delta);
+
+        // withdraw 0 -boundary case
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.withdraw(0);
+        assertEquals(200, bankAccount.getBalance(), delta);
+
+        // withdraw 0 leaving 0 -boundary case
+        bankAccount = new BankAccount("a@b.com", 0);
+        bankAccount.withdraw(0);
+        assertEquals(0, bankAccount.getBalance(), delta);
+
+        // withdraw .01 -boundary case
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.withdraw(.01);
+        assertEquals(199.99, bankAccount.getBalance(), delta);
+
+        // withdraw .01 leaving 0 -boundary case
+        bankAccount = new BankAccount("a@b.com", .01);
+        bankAccount.withdraw(.01);
+        assertEquals(0, bankAccount.getBalance(), delta);
+
+        // INVALID
+        // withdraw negative integer amount
+        final BankAccount a = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> a.withdraw(-100));
+
+        // withdraw negative float amount
+        final BankAccount b = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> b.withdraw(-10.20));
+
+        // withdraw -.01 -boundary case
+        final BankAccount c = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> c.withdraw(-.01));
+
+        // withdraw amount greater than balance
+        final BankAccount d = new BankAccount("a@b.com", 200);
+        assertThrows(InsufficientFundsException.class, () -> d.withdraw(300));
     }
 
     @Test

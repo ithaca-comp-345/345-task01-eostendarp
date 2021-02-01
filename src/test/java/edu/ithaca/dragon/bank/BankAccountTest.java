@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
-
     @Test
     void isAmountValidTest() {
         // VALID (non-negative and <= 2 decimal places)
@@ -159,6 +158,22 @@ class BankAccountTest {
         // withdraw amount .01 greater than balance -boundary case
         final BankAccount e = new BankAccount("a@b.com", 200);
         assertThrows(InsufficientFundsException.class, () -> e.withdraw(200.01));
+
+        // withdraw float component decimal place > 2
+        final BankAccount f = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> f.withdraw(.248));
+
+        // withdraw integer and float component decimal place > 2
+        final BankAccount g = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> g.withdraw(20.091));
+
+        // withdraw negative float component decimal place > 2
+        final BankAccount h = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> h.withdraw(-.009));
+
+        // withdraw negative integer and float component decimal place > 2
+        final BankAccount i = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> i.withdraw(-20.1234));        
     }
 
     @Test
@@ -262,11 +277,18 @@ class BankAccountTest {
     @Test
     void constructorTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-
         assertEquals("a@b.com", bankAccount.getEmail());
         assertEquals(200, bankAccount.getBalance());
+
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -53));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", .125));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 120.369));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -3.14));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -52.999));
+
     }
 
 }

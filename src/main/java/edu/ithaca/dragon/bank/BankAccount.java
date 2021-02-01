@@ -6,6 +6,15 @@ public class BankAccount {
     private double balance;
 
     /**
+     * Returns true if amount has 2 or fewer decimal places and is non-negative, false otherwise
+     * @param amount value to check
+     * @return true if amount is valid, false otherwise
+     */
+    private static boolean isAmountValid(double amount) {
+        return false;
+    }
+
+    /**
      * @throws IllegalArgumentException if email is invalid
      */
     public BankAccount(String email, double startingBalance){

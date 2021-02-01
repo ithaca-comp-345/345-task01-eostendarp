@@ -86,6 +86,10 @@ class BankAccountTest {
         // withdraw amount greater than balance
         final BankAccount d = new BankAccount("a@b.com", 200);
         assertThrows(InsufficientFundsException.class, () -> d.withdraw(300));
+
+        // withdraw amount .01 greater than balance -boundary case
+        final BankAccount e = new BankAccount("a@b.com", 200);
+        assertThrows(InsufficientFundsException.class, () -> e.withdraw(200.01));
     }
 
     @Test

@@ -177,6 +177,111 @@ class BankAccountTest {
     }
 
     @Test
+    void depositTest() {
+        final double delta = .001;
+
+        // VALID
+        // positive integer component
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(20);
+        assertEquals(220, bankAccount.getBalance(), delta);
+
+        // positive 1 decimal place float component
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(.5);
+        assertEquals(200.5, bankAccount.getBalance(), delta);
+
+        // positive 1 decimal place integer and float component
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(125.2);
+        assertEquals(325.2, bankAccount.getBalance(), delta);
+
+        // positive 2 decimal place float component
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(.25);
+        assertEquals(200.25, bankAccount.getBalance(), delta);
+
+        // positive 2 decimal place integer and float component
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(88.32);
+        assertEquals(288.32, bankAccount.getBalance(), delta);
+
+        // 0 amount -boundary case
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(0);
+        assertEquals(200, bankAccount.getBalance(), delta);
+
+        // .01 amount -boundary case
+        bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(.01);
+        assertEquals(200.01, bankAccount.getBalance(), delta);
+
+
+        // INVALID
+
+        // NEGATIVE
+        // negative integer component
+        final BankAccount a = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> a.deposit(-10));
+
+        // negative 1 place float component
+        final BankAccount b = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> b.deposit(-.5));
+
+        // negative 1 place integer and float component
+        final BankAccount c = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> c.deposit(-1.1));
+
+        // negative 2 place float component
+        final BankAccount d = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> d.deposit(-.75));
+
+        // negative 2 place integer and float component
+        final BankAccount e = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> e.deposit(-6.23));
+
+        // -.01 amount -boundary case
+        final BankAccount f = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> f.deposit(-.01));
+
+
+        // DECIMAL PLACES > 2
+        // decimal place > 2 float component amount
+        final BankAccount g = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> g.deposit(.121212121212));
+
+        // 3 decimal place float component amount -boundary case
+        final BankAccount h = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> h.deposit(.789));
+
+        // .009 amount -boundary case
+        final BankAccount i = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> i.deposit(.009));
+
+        // integer and 3 decimal place float component amount
+        final BankAccount j = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> j.deposit(793.539));
+
+
+        // NEGATIVE + DECIMAL PLACES > 2
+        // float component amount
+        final BankAccount k = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> k.deposit(-.71828));
+
+        // integer and float component amount
+        final BankAccount l = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> l.deposit(-123.4556));
+
+        // -.001 amount -boundary case
+        final BankAccount m = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> m.deposit(-.001));
+
+        // -.009 amount -boundary case
+        final BankAccount n = new BankAccount("a@b.com", 200);
+        assertThrows(IllegalArgumentException.class, () -> n.deposit(-.009));
+    }
+
+    @Test
     void isEmailValidTest(){
         // VALID
         // normal cases

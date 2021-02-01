@@ -64,6 +64,14 @@ public class BankAccount {
         }
     }
 
+    /**
+     * Adds amount to balance if amount is valid
+     * @param amount amount to deposit
+     */
+    public void deposit(double amount) {
+        // TODO implement after tests
+    }
+
     public static boolean isEmailValid(String email){
         
         //returns false if there is no '@' or '.'

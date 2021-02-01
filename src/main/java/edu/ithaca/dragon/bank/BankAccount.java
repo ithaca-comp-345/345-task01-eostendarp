@@ -10,7 +10,7 @@ public class BankAccount {
      * @param amount value to check
      * @return true if amount is valid, false otherwise
      */
-    private static boolean isAmountValid(double amount) {
+    public static boolean isAmountValid(double amount) {
         return false;
     }
 

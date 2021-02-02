@@ -282,6 +282,11 @@ class BankAccountTest {
     }
 
     @Test
+    void transferTest() {
+        // TODO write tests
+    }
+
+    @Test
     void isEmailValidTest(){
         // VALID
         // normal cases

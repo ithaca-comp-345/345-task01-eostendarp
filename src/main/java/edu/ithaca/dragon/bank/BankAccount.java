@@ -76,6 +76,15 @@ public class BankAccount {
         }
     }
 
+    /**
+     * Subtracts amount from balance and deposits it into to if to and amount are valid
+     * @param to BankAccount to transfer to
+     * @param amount amount to transfer
+     */
+    public void transfer(BankAccount to, double amount) {
+        // TODO implement transfer after tests
+    }
+
     public static boolean isEmailValid(String email){
         
         //returns false if there is no '@' or '.'

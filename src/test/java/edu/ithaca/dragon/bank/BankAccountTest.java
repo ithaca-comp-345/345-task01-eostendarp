@@ -283,7 +283,70 @@ class BankAccountTest {
 
     @Test
     void transferTest() {
-        // TODO write tests
+        final double delta = .001;
+
+        // VALID
+        // normal case
+        BankAccount from = new BankAccount("from@doma.in", 200);
+        BankAccount to = new BankAccount("to@doma.in", 200);
+        from.transfer(to, 100);
+        assertEquals(100, from.getBalance(), delta);
+        assertEquals(300, to.getBalance(), delta);
+
+        // trasfer entire balance -boundary case
+        from = new BankAccount("from@doma.in", 200);
+        to = new BankAccount("to@doma.in", 200);
+        from.transfer(to, 200);
+        assertEquals(0, from.getBalance(), delta);
+        assertEquals(200, to.getBalance(), delta);
+
+        // transfer 0 -boundary case
+        from = new BankAccount("from@doma.in", 200);
+        to = new BankAccount("to@doma.in", 200);
+        from.transfer(to, 0);
+        assertEquals(200, from.getBalance(), delta);
+        assertEquals(200, to.getBalance(), delta);
+
+        // transfer .01 -boundary case
+        from = new BankAccount("from@doma.in", 200);
+        to = new BankAccount("to@doma.in", 200);
+        from.transfer(to, .01);
+        assertEquals(199.99, from.getBalance(), delta);
+        assertEquals(200.01, to.getBalance(), delta);
+
+        // transfer leaving .01 -boundary case
+        from = new BankAccount("from@doma.in", 200);
+        to = new BankAccount("to@doma.in", 200);
+        from.transfer(to, 199.99);
+        assertEquals(.01, from.getBalance(), delta);
+        assertEquals(399.99, to.getBalance(), delta);
+
+
+        // INVALID
+        // transfer amount larger than balance
+        BankAccount f1 = new BankAccount("from@doma.in", 200);
+        BankAccount t1 = new BankAccount("to@doma.in", 200);
+        assertThrows(InsufficientFundsException.class, () -> f1.transfer(t1, 300));
+
+        // transfer .01 more than balance -boundary case
+        BankAccount f2 = new BankAccount("from@doma.in", 200);
+        BankAccount t2 = new BankAccount("to@doma.in", 200);
+        assertThrows(InsufficientFundsException.class, () -> f2.transfer(t2, 200.01));
+
+        // transfer negative amount
+        BankAccount f3 = new BankAccount("from@doma.in", 200);
+        BankAccount t3 = new BankAccount("to@doma.in", 200);
+        assertThrows(IllegalArgumentException.class, () -> f3.transfer(t3, -20));
+
+        // transfer -.01 -boundary case
+        BankAccount f4 = new BankAccount("from@doma.in", 200);
+        BankAccount t4 = new BankAccount("to@doma.in", 200);
+        assertThrows(IllegalArgumentException.class, () -> f4.transfer(t4, -.01));
+
+        // transfer to null BankAccount
+        BankAccount f5 = new BankAccount("from@doma.in", 200);
+        BankAccount t5 = null;
+        assertThrows(IllegalArgumentException.class, () -> f5.transfer(t5, -.01));
     }
 
     @Test

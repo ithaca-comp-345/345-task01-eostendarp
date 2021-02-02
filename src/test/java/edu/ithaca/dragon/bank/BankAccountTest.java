@@ -282,7 +282,7 @@ class BankAccountTest {
     }
 
     @Test
-    void transferTest() {
+    void transferTest() throws InsufficientFundsException {
         final double delta = .001;
 
         // VALID
@@ -298,7 +298,7 @@ class BankAccountTest {
         to = new BankAccount("to@doma.in", 200);
         from.transfer(to, 200);
         assertEquals(0, from.getBalance(), delta);
-        assertEquals(200, to.getBalance(), delta);
+        assertEquals(400, to.getBalance(), delta);
 
         // transfer 0 -boundary case
         from = new BankAccount("from@doma.in", 200);

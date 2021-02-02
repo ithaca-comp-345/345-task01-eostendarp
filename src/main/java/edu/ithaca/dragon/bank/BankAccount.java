@@ -76,6 +76,25 @@ public class BankAccount {
         }
     }
 
+    /**
+     * Subtracts amount from balance and deposits it into to if to and amount are
+     * valid
+     * 
+     * @param to     BankAccount to transfer to
+     * @param amount amount to transfer
+     * @throws InsufficientFundsException
+     */
+    public void transfer(BankAccount to, double amount) throws InsufficientFundsException {
+        if (to == null) {
+            throw new IllegalArgumentException("receiving BankAccount must not be null");
+        } else if (!isAmountValid(amount)) {
+            throw new IllegalArgumentException("amount must be non-negative and have 2 or fewer decimal places");
+        } else {
+            withdraw(amount);  // throws InsufficientFundsException if amount > balance
+            to.deposit(amount);
+        }
+    }
+
     public static boolean isEmailValid(String email){
         
         //returns false if there is no '@' or '.'

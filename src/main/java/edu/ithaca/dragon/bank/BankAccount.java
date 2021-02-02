@@ -69,7 +69,11 @@ public class BankAccount {
      * @param amount amount to deposit
      */
     public void deposit(double amount) {
-        // TODO implement after tests
+        if (isAmountValid(amount)) {
+            balance += amount;
+        } else {
+            throw new IllegalArgumentException("amount must be non-negative and have 2 or fewer decimal places");
+        }
     }
 
     public static boolean isEmailValid(String email){

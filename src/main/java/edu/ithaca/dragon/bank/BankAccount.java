@@ -77,10 +77,8 @@ public class BankAccount {
     }
 
     /**
-     * Subtracts amount from balance and deposits it into to if to and amount are
-     * valid
-     * 
-     * @param to     BankAccount to transfer to
+     * Subtracts amount from balance and deposits it into to if to and amount are valid
+     * @param to BankAccount to transfer to
      * @param amount amount to transfer
      * @throws InsufficientFundsException
      */

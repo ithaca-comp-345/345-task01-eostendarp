@@ -142,38 +142,47 @@ class BankAccountTest {
         // withdraw negative integer amount
         final BankAccount a = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> a.withdraw(-100));
+        assertEquals(200, a.getBalance(), delta);
 
         // withdraw negative float amount
         final BankAccount b = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> b.withdraw(-10.20));
+        assertEquals(200, b.getBalance(), delta);
 
         // withdraw -.01 -boundary case
         final BankAccount c = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> c.withdraw(-.01));
+        assertEquals(200, c.getBalance(), delta);
 
         // withdraw amount greater than balance
         final BankAccount d = new BankAccount("a@b.com", 200);
         assertThrows(InsufficientFundsException.class, () -> d.withdraw(300));
+        assertEquals(200, d.getBalance(), delta);
 
         // withdraw amount .01 greater than balance -boundary case
         final BankAccount e = new BankAccount("a@b.com", 200);
         assertThrows(InsufficientFundsException.class, () -> e.withdraw(200.01));
+        assertEquals(200, e.getBalance(), delta);
 
         // withdraw float component decimal place > 2
         final BankAccount f = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> f.withdraw(.248));
+        assertEquals(200, f.getBalance(), delta);
 
         // withdraw integer and float component decimal place > 2
         final BankAccount g = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> g.withdraw(20.091));
+        assertEquals(200, g.getBalance(), delta);
 
         // withdraw negative float component decimal place > 2
         final BankAccount h = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> h.withdraw(-.009));
+        assertEquals(200, h.getBalance(), delta);
 
         // withdraw negative integer and float component decimal place > 2
         final BankAccount i = new BankAccount("a@b.com", 200);
-        assertThrows(IllegalArgumentException.class, () -> i.withdraw(-20.1234));        
+        assertThrows(IllegalArgumentException.class, () -> i.withdraw(-20.1234));
+        assertEquals(200, i.getBalance(), delta);       
     }
 
     @Test
@@ -223,26 +232,32 @@ class BankAccountTest {
         // negative integer component
         final BankAccount a = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> a.deposit(-10));
+        assertEquals(200, a.getBalance(), delta);
 
         // negative 1 place float component
         final BankAccount b = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> b.deposit(-.5));
+        assertEquals(200, b.getBalance(), delta);
 
         // negative 1 place integer and float component
         final BankAccount c = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> c.deposit(-1.1));
+        assertEquals(200, c.getBalance(), delta);
 
         // negative 2 place float component
         final BankAccount d = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> d.deposit(-.75));
+        assertEquals(200, d.getBalance(), delta);
 
         // negative 2 place integer and float component
         final BankAccount e = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> e.deposit(-6.23));
+        assertEquals(200, e.getBalance(), delta);
 
         // -.01 amount -boundary case
         final BankAccount f = new BankAccount("a@b.com", 200);
         assertThrows(IllegalArgumentException.class, () -> f.deposit(-.01));
+        assertEquals(200, f.getBalance(), delta);
 
 
         // DECIMAL PLACES > 2
@@ -327,26 +342,35 @@ class BankAccountTest {
         BankAccount f1 = new BankAccount("from@doma.in", 200);
         BankAccount t1 = new BankAccount("to@doma.in", 200);
         assertThrows(InsufficientFundsException.class, () -> f1.transfer(t1, 300));
+        assertEquals(200, f1.getBalance(), delta);
+        assertEquals(200, t1.getBalance(), delta);
 
         // transfer .01 more than balance -boundary case
         BankAccount f2 = new BankAccount("from@doma.in", 200);
         BankAccount t2 = new BankAccount("to@doma.in", 200);
         assertThrows(InsufficientFundsException.class, () -> f2.transfer(t2, 200.01));
+        assertEquals(200, f2.getBalance(), delta);
+        assertEquals(200, t2.getBalance(), delta);
 
         // transfer negative amount
         BankAccount f3 = new BankAccount("from@doma.in", 200);
         BankAccount t3 = new BankAccount("to@doma.in", 200);
         assertThrows(IllegalArgumentException.class, () -> f3.transfer(t3, -20));
+        assertEquals(200, f3.getBalance(), delta);
+        assertEquals(200, t3.getBalance(), delta);
 
         // transfer -.01 -boundary case
         BankAccount f4 = new BankAccount("from@doma.in", 200);
         BankAccount t4 = new BankAccount("to@doma.in", 200);
         assertThrows(IllegalArgumentException.class, () -> f4.transfer(t4, -.01));
+        assertEquals(200, f4.getBalance(), delta);
+        assertEquals(200, t4.getBalance(), delta);
 
         // transfer to null BankAccount
         BankAccount f5 = new BankAccount("from@doma.in", 200);
         BankAccount t5 = null;
         assertThrows(IllegalArgumentException.class, () -> f5.transfer(t5, -.01));
+        assertEquals(200, f5.getBalance(), delta);
     }
 
     @Test
